@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+  votingapp-net:
+    image: rvotechorama/votingapp-net
+    container_name: votenet
+    build:
+      context: ./VotingApp-Net
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+
+  redis:
+    image: redis
+    container_name: redis
+    ports: ["6379"]
+
+  result:
+    image: rvotechorama/cd-resultapp
+    build: ./../result
+    command: nodemon --debug server.js    
+    volumes:
+      - ./../result:/app
+    ports:
+      - "5001:80"
+
+  worker:
+    image: rvotechorama/cd-workerapp
+    build: ./../worker
+
+  db:
+    image: postgres:9.4
+    container_name: db
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+
+volumes:
+  db-data:
+

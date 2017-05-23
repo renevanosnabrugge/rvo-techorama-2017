@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  phantomjs:
+    container_name: phantom
+    image: wernight/phantomjs
+    ports:
+      - "8910:8910"
+    entrypoint:
+      - phantomjs
+      - --webdriver=8910
